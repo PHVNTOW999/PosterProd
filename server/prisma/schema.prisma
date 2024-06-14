@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  // required fields
+  email        String    @unique
+  username     String
+  password     String
+  // autofill
+  uuid         String    @id @default(uuid()) @unique
+  userPosts    Post[]
+  userLikes    Like[]
+  userComments Comment[]
+  createdAt    DateTime  @default(now())
+}
+
+model Post {
+  // required fields
+  text         String
+  // autofill
+  uuid         String    @id @default(uuid())
+  author       User      @relation(fields: [authorUUID], references: [uuid], onDelete: Cascade)
+  authorUUID   String
+  postLikes    Like[]
+  postComments Comment[]
+  createdAt    DateTime  @default(now())
+}
+
+model Like {
+  // autofill
+  uuid      String   @id @default(uuid())
+  post      Post     @relation(fields: [postUUID], references: [uuid], onDelete: Cascade)
+  postUUID  String
+  user      User     @relation(fields: [userUUID], references: [uuid], onDelete: Cascade)
+  userUUID  String
+  createdAt DateTime @default(now())
+}
+
+model Comment {
+  // required fields
+  text       String
+  // autofill
+  uuid       String   @id @default(uuid())
+  post       Post     @relation(fields: [postUUID], references: [uuid], onDelete: Cascade)
+  postUUID   String
+  author     User     @relation(fields: [authorUUID], references: [uuid], onDelete: Cascade)
+  authorUUID String
+  createdAt  DateTime @default(now())
+}
