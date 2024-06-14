@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@reduxjs/toolkit": "^1.9.7",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -30,7 +31,10 @@
       "react-app",
       "react-app/jest",
       "next/core-web-vitals"
-    ]
+    ],
+    "rules": {
+      "react/no-unescaped-entities": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -43,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-config-next": "^14.2.4"
   }
 }
